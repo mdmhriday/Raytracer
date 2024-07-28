@@ -34,4 +34,5 @@
 
 
 # Images 
+src/*.ppm
 *.ppm
