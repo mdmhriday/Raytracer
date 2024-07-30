@@ -1,7 +1,7 @@
 #ifndef HITTABLE_H
 #define HITTABLE_H
 
-#include "ray.h"
+#include "utils.h"
 
 class hit_record{
     public:
@@ -9,7 +9,7 @@ class hit_record{
         vec3 normal;
         double t;
 
-        boot front_face;
+        bool front_face;
 
         void set_face_normal(const ray& r, const vec3& outward_normal) {
             // sets the hit record normal vector
