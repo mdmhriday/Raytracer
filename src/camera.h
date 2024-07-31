@@ -2,6 +2,7 @@
 #define CAMERA_H
 
 #include "utils.h"
+#include "hittable.h"
 
 class camera{
     public:
@@ -12,12 +13,12 @@ class camera{
         double image_width = 100;
 
         void render(const hittable& world){
-            initialize()
+            initialize();
 
             std::cout << "P3\n" << image_width << ' ' << image_height <<"\n255\n";
 
             for(int j = 0; j < image_width; j++){
-                for(int i = 0, i < image_height; i++){
+                for(int i = 0; i < image_height; i++){
                     auto pixel_center = pixel_100_loc + (i * pixel_delta_u) + (j * pixel_delta_v);
                     auto ray_direction = pixel_center - center;
                     ray r(center, ray_direction);
@@ -45,7 +46,7 @@ class camera{
             // viewport dimensions
             auto focal_length = 1.0;
             auto viewport_height = 2.0;
-            viewport_width = viewport_height * (double(image_width/image_height));
+            auto viewport_width = viewport_height * (double(image_width/image_height));
 
             // calculate vectors across horizontal and vertical viewport edges
             auto viewport_u = vec3(viewport_width, 0, 0);
@@ -53,7 +54,7 @@ class camera{
 
             // calculate the horizontal and vertical delta vectors form pixel to pixel
             pixel_delta_u = viewport_u / image_width;
-            pixel_delta_v = viewport_height / image_height;
+            pixel_delta_v = viewport_v / image_height;
 
             // calculate the location of the upper left pixel
             auto viewport_upper_left = center - vec3(0, 0, focal_length) - viewport_u / 2 - viewport_v / 2;
@@ -64,7 +65,7 @@ class camera{
         color ray_color(const ray& r, const hittable& world) const {
             hit_record rec;
 
-            if(world.hit(r, interval(0, infinity), rec)){
+           if (world.hit(r, interval(0, infinity), rec)){
                 return 0.5*(rec.normal + color(1, 1, 1));
             }
 
